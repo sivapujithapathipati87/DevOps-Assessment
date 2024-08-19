@@ -20,10 +20,33 @@ resource "aws_ecs_task_definition" "notification_task" {
       },
       {
         name  = "SECRET_KEY"
-        value = "your_secret_value"  # Replace this with an actual value or a reference to a resource
+        value = aws_secretsmanager_secret.notification_service_secret.name
       }
     ]
   }])
+}
+
+resource "aws_security_group" "ecs_service_sg" {
+  name   = "ecs-service-sg"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ecs-service-sg"
+  }
 }
 
 resource "aws_ecs_service" "notification_service" {
@@ -35,8 +58,8 @@ resource "aws_ecs_service" "notification_service" {
   launch_type = "FARGATE"
 
   network_configuration {
-    subnets         = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"]
-    security_groups = ["sg-zzzzzzzz"]
+    subnets         = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+    security_groups = [aws_security_group.ecs_service_sg.id]
     assign_public_ip = true
   }
 }
