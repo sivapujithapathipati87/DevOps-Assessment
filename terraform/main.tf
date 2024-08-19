@@ -1,3 +1,6 @@
+module "provider" {
+   source = "./provider"
+}
 module "ecr" {
   source = "./ecr"
 }
