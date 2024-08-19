@@ -1,7 +1,7 @@
 resource "aws_appautoscaling_target" "ecs_service_scaling" {
   max_capacity       = 5
   min_capacity       = 1
-  resource_id        = "service/${aws_ecs_cluster.notification_cluster.id}/${aws_ecs_service.notification_service.name}"
+  resource_id        = "service/${aws_ecs_cluster.notification_cluster.name}/${aws_ecs_service.notification_service.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
