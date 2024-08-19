@@ -1,19 +1,19 @@
 module "ecr" {
-  source = "./ecr"
+  source = "./ecr.tf"
 }
 
 module "cluster" {
-  source = "./cluster"
+  source = "./cluster.tf"
 }
 
 module "service" {
-  source = "./service"
+  source = "./service.tf"
 }
 
 module "autoscaling" {
-  source = "./autoscaling"
+  source = "./autoscaling.tf"
 }
 
 module "secrets-manager" {
-  source = "./secrets-manager"
+  source = "./secrets-manager.tf"
 }
