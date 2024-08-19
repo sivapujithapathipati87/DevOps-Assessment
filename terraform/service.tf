@@ -20,7 +20,7 @@ resource "aws_ecs_task_definition" "notification_task" {
       },
       {
         name  = "SECRET_KEY"
-        value = module.secrets-manager.secret_value
+        value = "your_secret_value"  # Replace this with an actual value or a reference to a resource
       }
     ]
   }])
